@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/GravGame.dir/src/main.cpp.o CMakeFiles/GravGame.dir/src/object.cpp.o CMakeFiles/GravGame.dir/src/renderwindow.cpp.o CMakeFiles/GravGame.dir/src/math.cpp.o  -o GravGame -L/usr/lib/x86_64-linux-gnu  -lSDL2 

@@ -1,0 +1,3 @@
+/home/workspace/CppND-Capstone-Gravity-Game/build/CMakeFiles/rebuild_cache.dir
+/home/workspace/CppND-Capstone-Gravity-Game/build/CMakeFiles/GravGame.dir
+/home/workspace/CppND-Capstone-Gravity-Game/build/CMakeFiles/edit_cache.dir
