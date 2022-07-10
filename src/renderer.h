@@ -15,9 +15,8 @@ class Renderer {
   void UpdateWindowTitle(int score, int fps);
   
   SDL_Renderer *sdl_renderer;
- private:
   SDL_Window *sdl_window;
-
+ private:
   const std::size_t screen_width;
   const std::size_t screen_height;
   const std::size_t grid_width;

@@ -4,6 +4,7 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "Menu.h"
 #include "Player.h"
 
 bool writeToScoreBoard(PlayerObj p_1);
@@ -20,6 +21,9 @@ int main() {
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
   Game game(kGridWidth, kGridHeight);
+  Menu menu(&game, &renderer);
+  while(!game.started)
+  	menu.drawMenu();
   game.Run(controller, renderer, kMsPerFrame);
   
  

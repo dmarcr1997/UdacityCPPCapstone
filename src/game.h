@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "input.h"
 
 class Game {
  public:
@@ -19,7 +20,8 @@ class Game {
   void setLevelEasy();
   void setLevelMedium();
   void setLevelHard();
-  
+  void startGame();
+  bool started = false;
  private:
   Snake snake;
   SDL_Point food;
@@ -34,7 +36,6 @@ class Game {
   int fruit{1};
   float snakeSpeed{0.02};
   int score{0};
-  bool started = true;
   void PlaceFood(int f);
   void Update();
 

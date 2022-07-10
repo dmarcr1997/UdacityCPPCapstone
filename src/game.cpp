@@ -113,5 +113,9 @@ void Game::setLevelHard() {
 	snakeSpeed = 0.06;
   	all_food =  { &food, &food_2, &food_3, &food_4 };
 } 
+
+void Game::startGame() {
+	started = true;
+}
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
