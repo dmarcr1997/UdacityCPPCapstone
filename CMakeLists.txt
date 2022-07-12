@@ -1,20 +1,51 @@
-cmake_minimum_required(VERSION 3.7)
+# Define the project name
+project(SnakeGame)
+
+# Set the cmake minimum version to 3.5.1
+cmake_minimum_required(VERSION 3.5.1)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-std=c++17)
+# Add SDL2 CMake modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
-set(CXX_FLAGS "-Wall -lSDL_ttf")
-set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
+# Add all c source files under the src directory
+file(GLOB SOURCES "src/*.cpp")
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-project(SDL2Test)
+# Add all headers files under the include directory
+target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+# Add compiler errors/warnings flags
+# target_compile_options(${PROJECT_NAME} PRIVATE $<$<C_COMPILER_ID:MSVC>:/W4 /WX>)
+# target_compile_options(${PROJECT_NAME} PRIVATE $<$<NOT:$<C_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic -Werror>)
 
+
+# Add SDL2 library
 find_package(SDL2 REQUIRED)
-Find_package(SDL2TTF REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2TFF_INCLUDE_DIR} src)
+target_link_libraries(${PROJECT_NAME} SDL2::Main)
 
-add_executable(SnakeGame src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/snake.cpp src/Menu.cpp)
-string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-target_link_libraries(SnakeGame ${SDL2_LIBRARIES} ${SDL2TFF_LIBRARY}})
+# Add SDL2_image library
+#find_package(SDL2_image REQUIRED)
+#target_link_libraries(${PROJECT_NAME} SDL2::Image)
+
+# Add SDL2_ttf library
+find_package(SDL2_ttf REQUIRED)
+target_link_libraries(${PROJECT_NAME} SDL2::TTF)
+
+# Add SDL2_net library
+#find_package(SDL2_net REQUIRED)
+#target_link_libraries(${PROJECT_NAME} SDL2::Net)
+
+# Add SDL2_mixer library
+#find_package(SDL2_mixer REQUIRED)
+#target_link_libraries(${PROJECT_NAME} SDL2::Mixer)
+
+# Add SDL2_gfx library
+#find_package(SDL2_gfx REQUIRED)
+#target_link_libraries(${PROJECT_NAME} SDL2::GFX)
+
+# Copy assets
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

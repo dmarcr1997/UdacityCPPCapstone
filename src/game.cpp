@@ -22,7 +22,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
-	setLevelHard();
   while (running) {
     if(started){
       
@@ -102,19 +101,23 @@ void Game::MonitorFood(int new_x, int new_y) {
 }
 
 void Game::setLevelEasy() {
+  	std::cout << "LEVEL EASY" << std::endl;
 	snakeSpeed = 0.02;
   	all_food =  { &food };
 }
 void Game::setLevelMedium() {
+  	std::cout << "LEVEL MEDIUM" << std::endl;
 	snakeSpeed = 0.04;
   	all_food =  { &food, &food_2, &food_3 };
 }
 void Game::setLevelHard() {
+  	std::cout << "LEVEL HARD" << std::endl;
 	snakeSpeed = 0.06;
   	all_food =  { &food, &food_2, &food_3, &food_4 };
 } 
 
 void Game::startGame() {
+  	std::cout << "START GAME" << std::endl;
 	started = true;
 }
 int Game::GetScore() const { return score; }

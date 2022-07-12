@@ -22,9 +22,11 @@ int main() {
   Controller controller;
   Game game(kGridWidth, kGridHeight);
   Menu menu(&game, &renderer);
-  while(!game.started)
-  	menu.drawMenu();
-  game.Run(controller, renderer, kMsPerFrame);
+  bool failure = false;
+  while(!game.started && !failure)
+  	failure = menu.drawMenu();
+  if(!failure)
+  	game.Run(controller, renderer, kMsPerFrame);
   
  
   

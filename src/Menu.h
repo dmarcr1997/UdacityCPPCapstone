@@ -4,21 +4,23 @@
 #include <iostream>
 #include "game.h"
 #include "renderer.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 
+#define SCREEN_WIDTH    800
+#define SCREEN_HEIGHT   600
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define FONT_PATH   "assets/TitanOne-Regular.ttf"
 class Menu {
   public:
   	Menu(Game* game, Renderer* renderer);
-  	void drawMenu();
+  	bool drawMenu();
   private:
   	Game *game;
   	Renderer *renderer;
-  	void drawButton(SDL_Rect* rect, const char* text, char option);
     void startGame();
-  	void error(const char* message);
   	void teardown();
-  	SDL_Surface* getTextSurface(const char* text, const char* font, int size);
 };
 
 #endif

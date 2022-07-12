@@ -1,117 +1,186 @@
 #include "Menu.h"
-SDL_Color WHITE = {255, 255, 255};
+
 Menu::Menu(Game* g, Renderer* r): game(g), renderer(r){}
 
-void Menu::drawButton(SDL_Rect* rect, const char* text, char option)
-{
+bool Menu::drawMenu() {
    	TTF_Init();
-  	SDL_Renderer *sdl_r = renderer->sdl_renderer;
-	SDL_SetRenderDrawColor(sdl_r, 0x80, 0x80, 0x80, 0xFF);
+  	SDL_Color textColor = { 45, 207, 255, 0xFF };
+  	SDL_Color textColorActivated = { 0x00, 0xFF, 0x00, 0xFF};
+    SDL_Color textBackgroundColor = { 0x00, 0x00, 0x00, 0xFF };
+
+    SDL_Rect squareRect;
+    // Square dimensions: Half of the min(SCREEN_WIDTH, SCREEN_HEIGHT)
+    squareRect.w = MIN(SCREEN_WIDTH, SCREEN_HEIGHT) / 2;
+    squareRect.h = MIN(SCREEN_WIDTH, SCREEN_HEIGHT) / 2;
+
+    // Square position: In the middle of the screen
+    squareRect.x = SCREEN_WIDTH / 2 - squareRect.w / 2;
+    squareRect.y = SCREEN_HEIGHT / 2 - squareRect.h / 2;
+
+    TTF_Font *font = TTF_OpenFont(FONT_PATH, 60);
     
-    int oldW = rect->w;
-    int oldX = rect->x;
-
-    if( text )
-    {
-        SDL_Surface* textSurface = getTextSurface(text, "ShareTechMono-Regular", 50);
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(sdl_r, textSurface);
-        SDL_Rect surfRect;
-        SDL_GetClipRect(textSurface, &surfRect);
-
-        if( surfRect.w+20 > rect->w )
-        {
-            rect->x = rect->x - (surfRect.w - rect->w)/2;
-            rect->w = surfRect.w + 20;
-        }
-        surfRect.x = rect->x - (surfRect.w - rect->w)/2;
-        surfRect.y = rect->y - (surfRect.h - rect->h)/2;
-        
-        SDL_RenderFillRect(sdl_r, rect);
-
-        SDL_RenderCopy(sdl_r, textTexture, NULL, &surfRect);
-        SDL_FreeSurface(textSurface);
-        SDL_DestroyTexture(textTexture);
+    if(!font) {
+      printf("Unable to load font: '%s'!\n"
+             "SDL2_ttf Error: %s\n", FONT_PATH, TTF_GetError());
+ 	  return true;
     }
-    else
-    {
-        SDL_RenderFillRect(sdl_r, rect);
+    SDL_Texture *text = NULL;
+  	SDL_Texture *text_2 = NULL;
+    SDL_Texture *text_3 = NULL;
+    SDL_Texture *text_4 = NULL;
+  
+    SDL_Rect textRect;
+  	SDL_Rect textRect_2;
+    SDL_Rect textRect_3;
+    SDL_Rect textRect_4;
+  
+
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, "Easy", textColor, textBackgroundColor);
+	SDL_Surface *textSurface_2 = TTF_RenderText_Shaded(font, "Medium", textColor, textBackgroundColor);
+	SDL_Surface *textSurface_3 = TTF_RenderText_Shaded(font, "Hard", textColor, textBackgroundColor);
+	SDL_Surface *textSurface_4 = TTF_RenderText_Shaded(font, "Start", textColor, textBackgroundColor);
+  
+    if(!textSurface) {
+      printf("Unable to render text surface!\n"
+             "SDL2_ttf Error: %s\n", TTF_GetError());
+    } else {
+      // Create texture from surface pixels
+      text = SDL_CreateTextureFromSurface(renderer->sdl_renderer, textSurface);
+      text_2 = SDL_CreateTextureFromSurface(renderer->sdl_renderer, textSurface_2);
+      text_3 = SDL_CreateTextureFromSurface(renderer->sdl_renderer, textSurface_3);
+      text_4 = SDL_CreateTextureFromSurface(renderer->sdl_renderer, textSurface_4);
+      
+      if(!text || !text_2 || !text_3 || !text_4) {
+        printf("Unable to create texture from rendered text!\n"
+               "SDL2 Error: %s\n", SDL_GetError());
+        return true;
+      }
+
+      // Get text dimensions
+      textRect.w = textSurface->w;
+      textRect.h = textSurface->h;
+	  
+      textRect_2.w = textSurface_2->w;
+      textRect_2.h = textSurface_2->h;
+      
+      textRect_3.w = textSurface_3->w;
+      textRect_3.h = textSurface_3->h;
+      
+      textRect_4.w = textSurface_4->w;
+      textRect_4.h = textSurface_4->h;
+      
+      SDL_FreeSurface(textSurface);
+      SDL_FreeSurface(textSurface_2);
+      SDL_FreeSurface(textSurface_3);
+      SDL_FreeSurface(textSurface_4);
     }
-    
 
-    int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    if( rect->x < mouseX && rect->x+rect->w > mouseX &&
-        rect->y < mouseY && rect->y+rect->h > mouseY )
+    textRect.x = ((SCREEN_WIDTH - textRect.w) / 2) - 80;
+    textRect.y = squareRect.y - textRect.h - 10;
+  	textRect_2.x = ((SCREEN_WIDTH - textRect_2.w) / 2) - 80;
+    textRect_2.y = squareRect.y - textRect_2.h + 60;
+  	textRect_3.x = ((SCREEN_WIDTH - textRect_3.w) / 2) - 80;
+    textRect_3.y = squareRect.y - textRect_3.h + 130;
+  	textRect_4.x = ((SCREEN_WIDTH - textRect_4.w) / 2) - 80;
+    textRect_4.y = squareRect.y - textRect_4.h + 300;
+	// Event loop exit flag
+    bool quit = false;
+
+    // Event loop
+    while(!quit)
     {
-      	SDL_Event e;
-        if( SDL_PollEvent(&e) == SDL_MOUSEBUTTONDOWN ) {
-          switch(option) {
-            case 'E':
-              game->setLevelEasy();
-              break;
-            case 'M':
-              game->setLevelMedium();
-              break;
-            case 'H':
-              game->setLevelHard();
-              break;
-            case 'S':
-              startGame();
-              break;
-          }
-        }
-        SDL_SetRenderDrawColor(sdl_r, 0x00, 0x00, 0x00, 0x30);
-        SDL_RenderFillRect(sdl_r, rect);
+      SDL_Event e;
+
+      // Wait indefinitely for the next available event
+      SDL_WaitEvent(&e);
+
+      // User requests quit
+      if(e.type == SDL_QUIT)
+      {
+        quit = true;
+        SDL_DestroyRenderer(renderer->sdl_renderer);
+        SDL_DestroyWindow(renderer->sdl_window);
+        // Quit SDL2_ttf
+    	TTF_Quit();
+
+        // Quit SDL
+        SDL_Quit();
+        return true;
+      } 
+      if (e.type == SDL_MOUSEBUTTONDOWN) {
+      	int mouseX, mouseY;
+        SDL_GetMouseState( &mouseX, &mouseY );
+		if(textRect.x < mouseX && textRect.x+textRect.w > mouseX &&
+        textRect.y < mouseY && textRect.y+textRect.h > mouseY){
+        	std::cout << "Easy" << std::endl;
+          	SDL_Surface *newSurface = TTF_RenderText_Shaded(font, "Easy", textColorActivated, textBackgroundColor);
+          	
+          	text = SDL_CreateTextureFromSurface(renderer->sdl_renderer, newSurface);
+          	game->setLevelEasy();
+		} 
+        else if(textRect_2.x < mouseX && textRect_2.x+textRect_2.w > mouseX &&
+        textRect_2.y < mouseY && textRect_2.y+textRect_2.h > mouseY){
+        	std::cout << "Medium" << std::endl;
+          	SDL_Surface *newSurface_2 = TTF_RenderText_Shaded(font, "Medium", textColorActivated, textBackgroundColor);
+          	
+          	text = SDL_CreateTextureFromSurface(renderer->sdl_renderer, newSurface_2);
+          	game->setLevelMedium();
+		} 
+        else if(textRect_3.x < mouseX && textRect_3.x+textRect_3.w > mouseX &&
+        textRect_3.y < mouseY && textRect_3.y+textRect_3.h > mouseY){
+        	std::cout << "Hard" << std::endl;
+            SDL_Surface *newSurface_3 = TTF_RenderText_Shaded(font, "Hard", textColorActivated, textBackgroundColor);
+          	
+          	text = SDL_CreateTextureFromSurface(renderer->sdl_renderer, newSurface_3);
+          	game->setLevelHard();
+		} 
+        else if(textRect_4.x < mouseX && textRect_4.x+textRect_4.w > mouseX &&
+        textRect_4.y < mouseY && textRect_4.y+textRect_4.h > mouseY){
+        	std::cout << "Start" << std::endl;
+          	SDL_Surface *newSurface_4 = TTF_RenderText_Shaded(font, "Start", textColorActivated, textBackgroundColor);
+          	
+          	text = SDL_CreateTextureFromSurface(renderer->sdl_renderer, newSurface_4);
+          	startGame();
+          	return false;
+		} 
+	  }
+
+      // Initialize renderer color white for the background
+      SDL_SetRenderDrawColor(renderer->sdl_renderer, 0x00, 0x00, 0x00, 0xFF);
+
+      // Clear screen
+      SDL_RenderClear(renderer->sdl_renderer);
+
+      // Draw filled square
+      SDL_RenderFillRect(renderer->sdl_renderer, &squareRect);
+
+      // Draw text
+      SDL_RenderCopy(renderer->sdl_renderer, text, NULL, &textRect);
+      SDL_RenderCopy(renderer->sdl_renderer, text_2, NULL, &textRect_2);
+      SDL_RenderCopy(renderer->sdl_renderer, text_3, NULL, &textRect_3);
+      SDL_RenderCopy(renderer->sdl_renderer, text_4, NULL, &textRect_4);
+
+      // Update screen
+      SDL_RenderPresent(renderer->sdl_renderer);
     }
+	TTF_Quit();
+  	return false;
 
-    SDL_SetRenderDrawColor(sdl_r, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderDrawRect(sdl_r, rect);
-
-    rect->w = oldW;
-    rect->x = oldX;
+//     drawButton(&rect, "Easy", 'E');
+//     rect.y += rect.h + 50;
+//     drawButton(&rect, "Medium", 'M');
+//     rect.y += rect.h + 50;
+//     drawButton(&rect, "Hard", 'H');
+//     rect.y += rect.h + 50;
+//     drawButton(&rect, "Start", 'S');
 }
 
-void Menu::drawMenu() {
-    SDL_Rect rect;
-    rect.x = (640-200)/2;
-    rect.y = 100;
-    rect.h = 120;
-    rect.w = 240;
-
-    drawButton(&rect, "Easy", 'E');
-    rect.y += rect.h + 50;
-    drawButton(&rect, "Medium", 'M');
-    rect.y += rect.h + 50;
-    drawButton(&rect, "Hard", 'H');
-    rect.y += rect.h + 50;
-    drawButton(&rect, "Start", 'S');
-}
-
-SDL_Surface* Menu::getTextSurface(const char* text, const char* font, int size){
-	 TTF_Font* ttf_font = TTF_OpenFont(font, size);
-    if( ttf_font == NULL )
-    {
-        char msg[100] = "Could not open font: ";
-        strcat(msg, font);
-        error(msg);
-    }
-    SDL_Surface* surface = TTF_RenderText_Solid(ttf_font, text, WHITE);
-    TTF_CloseFont(ttf_font);
-    return surface;
-
-}
 void Menu::startGame()
 {
 	SDL_RenderClear(renderer->sdl_renderer);
   	game->startGame();
 }
 
-void Menu::error(const char* message)
-{
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", message, renderer->sdl_window);
-    teardown();
-    exit(1);
-}
 
 void Menu::teardown()
 {
