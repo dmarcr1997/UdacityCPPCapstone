@@ -52,10 +52,6 @@ make
 uncomment some instructions in the CMakeLists.txt file and re-execute the
 `make` command.
 
-### Open the project with an IDE under Linux
-
-See [IDE_USAGE.md](IDE_USAGE.md) for details.
-
 ## License
 
 Author: Damon M. Rocha
