@@ -20,7 +20,20 @@ class Menu {
   	Game *game;
   	Renderer *renderer;
     void startGame();
-  	void teardown();
+  	void resetSelected(int i, TTF_Font *font);
+  	SDL_Color textColor = { 45, 207, 255, 0xFF };
+  	SDL_Color textColorActivated = { 0x00, 0xFF, 0x00, 0xFF};
+    SDL_Color textBackgroundColor = { 0x00, 0x00, 0x00, 0xFF };
+  	
+  	std::vector<bool> selected = {0,0,0,0};
+  	std::vector<SDL_Texture*> texts = {NULL, NULL, NULL, NULL};
+   	SDL_Rect textRect;
+  	SDL_Rect textRect_2;
+    SDL_Rect textRect_3;
+    SDL_Rect textRect_4;
+  
+  	std::vector<SDL_Rect> textRects = { textRect, textRect_2, textRect_3, textRect_4 };
+  	std::vector<const char*> menuItems = {"Easy", "Medium", "Hard", "Start"};
 };
 
 #endif

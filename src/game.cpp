@@ -55,6 +55,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       }
     }
   }
+  SDL_DestroyRenderer(renderer.sdl_renderer);
+  SDL_DestroyWindow(renderer.sdl_window);
+  SDL_Quit();
+  return;
 }
 
 void Game::PlaceFood(int f) {
@@ -66,10 +70,10 @@ void Game::PlaceFood(int f) {
     // Check that the location is not occupied by a snake item before placing
     // food.
     if (!snake.SnakeCell(x, y)) {
-      std::cout << "Placing Food " << f+1 << " at: " << x << ", " << y << std::endl;
+      //Debugg food message std::cout << "Placing Food " << f+1 << " at: " << x << ", " << y << std::endl;
       all_food[f]->x = x;
       all_food[f]->y = y;
-      std::cout << "Food is at: " << all_food[f]->x << ", " << all_food[f]->y << std::endl;
+      //Debugg food message std::cout << "Food is at: " << all_food[f]->x << ", " << all_food[f]->y << std::endl;
       return;
     }
   }
@@ -101,23 +105,19 @@ void Game::MonitorFood(int new_x, int new_y) {
 }
 
 void Game::setLevelEasy() {
-  	std::cout << "LEVEL EASY" << std::endl;
-	snakeSpeed = 0.02;
+  	snakeSpeed = 0.01;
   	all_food =  { &food };
 }
 void Game::setLevelMedium() {
-  	std::cout << "LEVEL MEDIUM" << std::endl;
-	snakeSpeed = 0.04;
+	snakeSpeed = 0.02;
   	all_food =  { &food, &food_2, &food_3 };
 }
 void Game::setLevelHard() {
-  	std::cout << "LEVEL HARD" << std::endl;
-	snakeSpeed = 0.06;
+	snakeSpeed = 0.03;
   	all_food =  { &food, &food_2, &food_3, &food_4 };
 } 
 
 void Game::startGame() {
-  	std::cout << "START GAME" << std::endl;
 	started = true;
 }
 int Game::GetScore() const { return score; }

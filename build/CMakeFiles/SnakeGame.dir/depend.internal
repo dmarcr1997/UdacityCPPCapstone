@@ -152,7 +152,6 @@ CMakeFiles/SnakeGame.dir/src/game.cpp.o
  /usr/include/SDL2/close_code.h
 CMakeFiles/SnakeGame.dir/src/main.cpp.o
  /home/workspace/sdl2-ttf-sample/src/Menu.h
- /home/workspace/sdl2-ttf-sample/src/Player.h
  /home/workspace/sdl2-ttf-sample/src/controller.h
  /home/workspace/sdl2-ttf-sample/src/game.h
  /home/workspace/sdl2-ttf-sample/src/input.h

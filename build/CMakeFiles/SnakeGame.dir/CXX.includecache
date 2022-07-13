@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/workspace/sdl2-ttf-sample/src/Menu.cpp
-Menu.h
-/home/workspace/sdl2-ttf-sample/src/Menu.h
-
 /home/workspace/sdl2-ttf-sample/src/Menu.h
 iostream
 -
@@ -22,31 +18,9 @@ SDL.h
 SDL_ttf.h
 -
 
-/home/workspace/sdl2-ttf-sample/src/Player.h
-string
--
-
-/home/workspace/sdl2-ttf-sample/src/controller.cpp
-controller.h
-/home/workspace/sdl2-ttf-sample/src/controller.h
-iostream
--
-SDL.h
-/home/workspace/sdl2-ttf-sample/src/SDL.h
-snake.h
-/home/workspace/sdl2-ttf-sample/src/snake.h
-
 /home/workspace/sdl2-ttf-sample/src/controller.h
 snake.h
 /home/workspace/sdl2-ttf-sample/src/snake.h
-
-/home/workspace/sdl2-ttf-sample/src/game.cpp
-game.h
-/home/workspace/sdl2-ttf-sample/src/game.h
-iostream
--
-SDL.h
-/home/workspace/sdl2-ttf-sample/src/SDL.h
 
 /home/workspace/sdl2-ttf-sample/src/game.h
 random
@@ -81,16 +55,6 @@ renderer.h
 /home/workspace/sdl2-ttf-sample/src/renderer.h
 Menu.h
 /home/workspace/sdl2-ttf-sample/src/Menu.h
-Player.h
-/home/workspace/sdl2-ttf-sample/src/Player.h
-
-/home/workspace/sdl2-ttf-sample/src/renderer.cpp
-renderer.h
-/home/workspace/sdl2-ttf-sample/src/renderer.h
-iostream
--
-string
--
 
 /home/workspace/sdl2-ttf-sample/src/renderer.h
 vector
@@ -99,13 +63,7 @@ SDL.h
 /home/workspace/sdl2-ttf-sample/src/SDL.h
 snake.h
 /home/workspace/sdl2-ttf-sample/src/snake.h
-
-/home/workspace/sdl2-ttf-sample/src/snake.cpp
-snake.h
-/home/workspace/sdl2-ttf-sample/src/snake.h
-cmath
--
-iostream
+unistd.h
 -
 
 /home/workspace/sdl2-ttf-sample/src/snake.h
